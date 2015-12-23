@@ -32,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("OUTPUT", item.getContent());
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ListItem item = (ListItem) customAdapter.getItem(position);
+                itemList.remove(item);
+                customAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
     }
 
     public void addTodo(View view) {
