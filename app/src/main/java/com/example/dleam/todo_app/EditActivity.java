@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 public class EditActivity extends AppCompatActivity {
-    private ListItem mItem;
+    private TodoItem mItem;
     private EditText mEditText;
 
     @Override
@@ -18,8 +18,8 @@ public class EditActivity extends AppCompatActivity {
 
         if(extras != null) {
             mEditText = (EditText) findViewById(R.id.editText);
-            mItem = (ListItem) extras.getSerializable("item");
-            mEditText.setText(mItem.getContent());
+            mItem = (TodoItem) extras.getSerializable("item");
+            mEditText.setText(mItem.content);
             mEditText.setSelection(mEditText.getText().length());
         }
     }

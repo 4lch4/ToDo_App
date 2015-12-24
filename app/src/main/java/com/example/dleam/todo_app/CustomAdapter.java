@@ -14,10 +14,10 @@ import java.util.ArrayList;
  */
 public class CustomAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<ListItem> mItemList;
+    private ArrayList<TodoItem> mItemList;
     private static LayoutInflater sInflater = null;
 
-    public CustomAdapter(Context context, ArrayList<ListItem> itemList) {
+    public CustomAdapter(Context context, ArrayList<TodoItem> itemList) {
         mContext = context;
         mItemList = itemList;
         sInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -39,7 +39,7 @@ public class CustomAdapter extends BaseAdapter {
 
         TextView content = (TextView) view.findViewById(R.id.contentView);
 
-        content.setText(mItemList.get(position).getContent());
+        content.setText(mItemList.get(position).content);
 
         return view;
     }

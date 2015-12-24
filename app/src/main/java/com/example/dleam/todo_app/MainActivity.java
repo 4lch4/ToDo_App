@@ -13,18 +13,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 42;
-    private ArrayList<ListItem> mItemList;
+    private ArrayList<TodoItem> mItemList;
     private CustomAdapter mCustomAdapter;
     private ListView mListView;
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            Bundle extras = data.getExtras();
-            ListItem item = (ListItem) extras.getSerializable("item");
-            mItemList.set(item.position, item);
-            mCustomAdapter.notifyDataSetChanged();
-        }
+    protected void onStop() {
+        super.onStop();
+        Log.i("STOP", "Stopping.");
     }
 
     @Override
@@ -32,15 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ItemDatabase itemDB = ItemDatabase.getInstance(this);
+
         mListView = (ListView) findViewById(R.id.listView);
         mItemList = new ArrayList<>();
         mCustomAdapter = new CustomAdapter(this, mItemList);
         mListView.setAdapter(mCustomAdapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                ListItem item = (ListItem) mCustomAdapter.getItem(position);
+                TodoItem item = (TodoItem) mCustomAdapter.getItem(position);
                 bundle.putSerializable("item", item);
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtras(bundle);
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ListItem item = (ListItem) mCustomAdapter.getItem(position);
+                TodoItem item = (TodoItem) mCustomAdapter.getItem(position);
                 mItemList.remove(item);
                 mCustomAdapter.notifyDataSetChanged();
                 return false;
@@ -59,13 +58,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void buildListView() {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            Bundle extras = data.getExtras();
+            TodoItem item = (TodoItem) extras.getSerializable("item");
+            mItemList.set(item.position, item);
+            mCustomAdapter.notifyDataSetChanged();
+        }
+    }
+
     public void addTodo(View view) {
         TextView content = (TextView) findViewById(R.id.editText);
-        ListItem item = new ListItem(content.getText().toString());
-        // Set the position of the item for editing
+        TodoItem item = new TodoItem();
+
+        item.content = content.getText().toString();
         item.position = mListView.getCount();
+
         mItemList.add(item);
         mCustomAdapter.notifyDataSetChanged();
+
         content.setText(null);
     }
 }
