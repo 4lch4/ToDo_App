@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/edit_item"
-        android:id="@+id/textView2"
+        android:id="@+id/edit_item"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -23,11 +23,12 @@
         android:id="@+id/todo_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/editButton"
-        android:layout_toStartOf="@+id/editButton" >
+        android:layout_toLeftOf="@+id/edit_button"
+        android:layout_toStartOf="@+id/edit_button"
+        android:layout_below="@+id/edit_item"
+        android:layout_marginTop="10dp" >
 
         <EditText
             android:layout_width="match_parent"
@@ -40,9 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/edit_item_save"
-        android:id="@+id/editButton"
+        android:id="@+id/edit_button"
         android:onClick="editTodo"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/edit_item"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>
