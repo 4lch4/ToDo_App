@@ -48,5 +48,6 @@ public class MainActivity extends AppCompatActivity {
         ListItem item = new ListItem(content.getText().toString());
         mItemList.add(item);
         mCustomAdapter.notifyDataSetChanged();
+        content.setText(null);
     }
 }
