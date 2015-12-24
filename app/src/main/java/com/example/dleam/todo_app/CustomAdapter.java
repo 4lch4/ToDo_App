@@ -13,21 +13,21 @@ import java.util.ArrayList;
  * Created by dleam on 12/22/2015.
  */
 public class CustomAdapter extends BaseAdapter {
-    private Context context;
-    private ArrayList<ListItem> itemList;
-    private static LayoutInflater inflater = null;
+    private Context mContext;
+    private ArrayList<ListItem> mItemList;
+    private static LayoutInflater sInflater = null;
 
-    public CustomAdapter(Context contextIn, ArrayList<ListItem> itemListIn) {
-        context = contextIn;
-        itemList = itemListIn;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public CustomAdapter(Context context, ArrayList<ListItem> itemList) {
+        mContext = context;
+        mItemList = itemList;
+        sInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public int getCount() { return itemList.size(); }
+    public int getCount() { return mItemList.size(); }
 
     @Override
-    public Object getItem(int position) { return itemList.get(position); }
+    public Object getItem(int position) { return mItemList.get(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -35,11 +35,11 @@ public class CustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if (view == null) { view = inflater.inflate(R.layout.item_row, null); }
+        if (view == null) { view = sInflater.inflate(R.layout.item_row, null); }
 
         TextView content = (TextView) view.findViewById(R.id.contentView);
 
-        content.setText(itemList.get(position).getContent());
+        content.setText(mItemList.get(position).getContent());
 
         return view;
     }

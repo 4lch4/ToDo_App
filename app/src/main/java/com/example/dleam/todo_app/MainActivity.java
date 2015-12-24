@@ -11,9 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<ListItem> itemList;
-    CustomAdapter customAdapter;
-    ListView listView;
+    private ArrayList<ListItem> mItemList;
+    private CustomAdapter mCustomAdapter;
+    private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,23 +21,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        listView = (ListView) findViewById(R.id.listView);
-        itemList = new ArrayList<>();
-        customAdapter = new CustomAdapter(this, itemList);
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) findViewById(R.id.listView);
+        mItemList = new ArrayList<>();
+        mCustomAdapter = new CustomAdapter(this, mItemList);
+        mListView.setAdapter(mCustomAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListItem item = (ListItem) customAdapter.getItem(position);
+                ListItem item = (ListItem) mCustomAdapter.getItem(position);
                 Log.i("OUTPUT", item.getContent());
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ListItem item = (ListItem) customAdapter.getItem(position);
-                itemList.remove(item);
-                customAdapter.notifyDataSetChanged();
+                ListItem item = (ListItem) mCustomAdapter.getItem(position);
+                mItemList.remove(item);
+                mCustomAdapter.notifyDataSetChanged();
                 return false;
             }
         });
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public void addTodo(View view) {
         TextView content = (TextView) findViewById(R.id.editText);
         ListItem item = new ListItem(content.getText().toString());
-        itemList.add(item);
-        customAdapter.notifyDataSetChanged();
+        mItemList.add(item);
+        mCustomAdapter.notifyDataSetChanged();
     }
 }
