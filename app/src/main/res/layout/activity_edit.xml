@@ -10,30 +10,39 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.dleam.todo_app.EditActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/edit_item"
+        android:id="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/todo_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button"
+        android:layout_alignBottom="@+id/editButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" >
+        android:layout_toLeftOf="@+id/editButton"
+        android:layout_toStartOf="@+id/editButton" >
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText"
-            android:hint="Todo" />
+            android:hint="@string/edit_task" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="@string/edit_item_save"
         android:id="@+id/editButton"
-        android:layout_alignParentBottom="true"
+        android:onClick="editTodo"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="editTodo" />
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

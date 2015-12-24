@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ToDo_App</string>
+    <string name="edit_item">Edit Item Below:</string>
+    <string name="edit_item_save">Save</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="add_item">Add Item</string>
+    <string name="new_item">Enter a new item</string>
 </resources>
