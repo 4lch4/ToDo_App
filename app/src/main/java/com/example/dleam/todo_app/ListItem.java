@@ -6,8 +6,8 @@ package com.example.dleam.todo_app;
 public class ListItem {
     public String mContent;
 
-    public ListItem(String contentIn) {
-        this.mContent = contentIn;
+    public ListItem(String content) {
+        this.mContent = content;
     }
 
     public String getContent() { return mContent; }
