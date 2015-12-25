@@ -3,7 +3,6 @@ package com.example.dleam.todo_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,20 +17,14 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("STOP", "Stopping.");
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ItemDatabase itemDB = ItemDatabase.getInstance(this);
+        final ItemDatabase itemDB = ItemDatabase.getInstance(this);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mItemList = new ArrayList<>();
+        mItemList = itemDB.getAllItems();
         mCustomAdapter = new CustomAdapter(this, mItemList);
         mListView.setAdapter(mCustomAdapter);
 
@@ -52,33 +45,34 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TodoItem item = (TodoItem) mCustomAdapter.getItem(position);
                 mItemList.remove(item);
+                itemDB.deleteItem(item);
                 mCustomAdapter.notifyDataSetChanged();
                 return false;
             }
         });
     }
 
-    private void buildListView() {
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            ItemDatabase itemDB = ItemDatabase.getInstance(this);
             Bundle extras = data.getExtras();
             TodoItem item = (TodoItem) extras.getSerializable("item");
             mItemList.set(item.position, item);
+            itemDB.updateItem(item);
             mCustomAdapter.notifyDataSetChanged();
         }
     }
 
     public void addTodo(View view) {
+        ItemDatabase itemDB = ItemDatabase.getInstance(this);
         TextView content = (TextView) findViewById(R.id.editText);
         TodoItem item = new TodoItem();
 
         item.content = content.getText().toString();
         item.position = mListView.getCount();
 
+        itemDB.addItem(item);
         mItemList.add(item);
         mCustomAdapter.notifyDataSetChanged();
 
