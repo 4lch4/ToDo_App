@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ToDo_App</string>
+    <string name="app_name">TuDu</string>
     <string name="edit_item">Edit Item Below:</string>
     <string name="edit_item_save">Save</string>
     <string name="edit_task">Edit Task</string>
