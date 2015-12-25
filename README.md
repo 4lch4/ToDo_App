@@ -33,6 +33,11 @@ http://i.imgur.com/b4zaEZj.gifv
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/). 
 
+## Notes
+
+I'm working on the other optional features such as the DialogFragment, priortizing tasks, and completion dates.
+As I finish them I'll update the README.
+
 ## License
 
     Copyright [2015] [Devin Leaman]
