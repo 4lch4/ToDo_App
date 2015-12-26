@@ -1,20 +1,21 @@
 package com.example.dleam.todo_app;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    private final int REQUEST_CODE = 42;
+public class MainActivity extends AppCompatActivity implements EditDialog.EditDialogListener{
     private ArrayList<TodoItem> mItemList;
     private CustomAdapter mCustomAdapter;
     private ListView mListView;
+    private EditText mEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +32,10 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
                 TodoItem item = (TodoItem) mCustomAdapter.getItem(position);
-                bundle.putSerializable("item", item);
-                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, REQUEST_CODE);
+                FragmentManager fm = getSupportFragmentManager();
+                EditDialog editDialog = EditDialog.newInstance("Edit Item", item);
+                editDialog.show(fm, "fragment_edit_item");
             }
         });
 
@@ -53,15 +52,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            ItemDatabase itemDB = ItemDatabase.getInstance(this);
-            Bundle extras = data.getExtras();
-            TodoItem item = (TodoItem) extras.getSerializable("item");
-            mItemList.set(item.position, item);
-            itemDB.updateItem(item);
-            mCustomAdapter.notifyDataSetChanged();
-        }
+    public void onFinishEditDialog(TodoItem item) {
+
+        ItemDatabase itemDB = ItemDatabase.getInstance(this);
+        TextView content = (TextView) findViewById(R.id.editText);
+
+        itemDB.updateItem(item);
+        mItemList.set(item.position, item);
+        mCustomAdapter.notifyDataSetChanged();
+
+        content.setText(null);
     }
 
     public void addTodo(View view) {
