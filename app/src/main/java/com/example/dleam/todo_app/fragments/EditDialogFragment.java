@@ -1,4 +1,4 @@
-package com.example.dleam.todo_app;
+package com.example.dleam.todo_app.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,17 +12,20 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.dleam.todo_app.R;
+import com.example.dleam.todo_app.models.TodoItem;
+
 /**
  * Created by dleam on 12/25/2015.
  */
-public class EditDialog extends DialogFragment implements TextView.OnEditorActionListener{
+public class EditDialogFragment extends DialogFragment implements TextView.OnEditorActionListener{
     private EditText mEditText;
     private int mPosition;
 
-    public EditDialog() {}
+    public EditDialogFragment() {}
 
-    public static EditDialog newInstance(String title, TodoItem item) {
-        EditDialog fragment = new EditDialog();
+    public static EditDialogFragment newInstance(String title, TodoItem item) {
+        EditDialogFragment fragment = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("itemText", item.content);
@@ -44,7 +47,6 @@ public class EditDialog extends DialogFragment implements TextView.OnEditorActio
             return true;
         }
         return false;
-
     }
 
     public interface EditDialogListener {

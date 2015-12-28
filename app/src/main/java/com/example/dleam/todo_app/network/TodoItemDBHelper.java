@@ -1,4 +1,4 @@
-package com.example.dleam.todo_app;
+package com.example.dleam.todo_app.network;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.dleam.todo_app.models.TodoItem;
+
 import java.util.ArrayList;
 
-public class ItemDatabase extends SQLiteOpenHelper {
+public class TodoItemDBHelper extends SQLiteOpenHelper {
 
     //<editor-fold desc="Variables">
     // DB Info
@@ -23,17 +25,17 @@ public class ItemDatabase extends SQLiteOpenHelper {
     private static final String KEY_ITEM_TEXT= "text";
 
     // Misc Variables
-    private static ItemDatabase sInstance;
+    private static TodoItemDBHelper sInstance;
     //</editor-fold>
 
-    public static synchronized ItemDatabase getInstance(Context context) {
+    public static synchronized TodoItemDBHelper getInstance(Context context) {
         if(sInstance == null) {
-            sInstance = new ItemDatabase(context.getApplicationContext());
+            sInstance = new TodoItemDBHelper(context.getApplicationContext());
         }
         return sInstance;
     }
 
-    private ItemDatabase(Context context) {
+    private TodoItemDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
