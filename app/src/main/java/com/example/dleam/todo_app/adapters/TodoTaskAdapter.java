@@ -8,19 +8,19 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.dleam.todo_app.R;
-import com.example.dleam.todo_app.models.TodoItem;
+import com.example.dleam.todo_app.models.TodoTask;
 
 import java.util.ArrayList;
 
 /**
  * Created by dleam on 12/22/2015.
  */
-public class TodoItemAdapter extends BaseAdapter {
+public class TodoTaskAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<TodoItem> mItemList;
+    private ArrayList<TodoTask> mItemList;
     private static LayoutInflater sInflater = null;
 
-    public TodoItemAdapter(Context context, ArrayList<TodoItem> itemList) {
+    public TodoTaskAdapter(Context context, ArrayList<TodoTask> itemList) {
         mContext = context;
         mItemList = itemList;
         sInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -38,7 +38,7 @@ public class TodoItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if (view == null) { view = sInflater.inflate(R.layout.item_row, null); }
+        if (view == null) { view = sInflater.inflate(R.layout.task_row, null); }
 
         TextView content = (TextView) view.findViewById(R.id.contentView);
 

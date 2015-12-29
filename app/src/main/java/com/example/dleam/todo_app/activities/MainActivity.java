@@ -11,15 +11,15 @@ import android.widget.TextView;
 
 import com.example.dleam.todo_app.fragments.EditDialogFragment;
 import com.example.dleam.todo_app.R;
-import com.example.dleam.todo_app.models.TodoItem;
-import com.example.dleam.todo_app.adapters.TodoItemAdapter;
-import com.example.dleam.todo_app.network.TodoItemDBHelper;
+import com.example.dleam.todo_app.models.TodoTask;
+import com.example.dleam.todo_app.adapters.TodoTaskAdapter;
+import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements EditDialogFragment.EditDialogListener {
-    private ArrayList<TodoItem> mItemList;
-    private TodoItemAdapter mTodoItemAdapter;
+    private ArrayList<TodoTask> mItemList;
+    private TodoTaskAdapter mTodoTaskAdapter;
     private ListView mListView;
     private EditText mEditText;
 
@@ -28,59 +28,59 @@ public class MainActivity extends AppCompatActivity implements EditDialogFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TodoItemDBHelper itemDB = TodoItemDBHelper.getInstance(this);
+        final TodoTaskDBHelper itemDB = TodoTaskDBHelper.getInstance(this);
 
         mListView = (ListView) findViewById(R.id.listView);
         mItemList = itemDB.getAllItems();
-        mTodoItemAdapter = new TodoItemAdapter(this, mItemList);
-        mListView.setAdapter(mTodoItemAdapter);
+        mTodoTaskAdapter = new TodoTaskAdapter(this, mItemList);
+        mListView.setAdapter(mTodoTaskAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TodoItem item = (TodoItem) mTodoItemAdapter.getItem(position);
+                TodoTask item = (TodoTask) mTodoTaskAdapter.getItem(position);
                 FragmentManager fm = getSupportFragmentManager();
                 EditDialogFragment editDialogFragment = EditDialogFragment.newInstance("Edit Item", item);
-                editDialogFragment.show(fm, "fragment_edit_item");
+                editDialogFragment.show(fm, "fragment_edit_task");
             }
         });
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TodoItem item = (TodoItem) mTodoItemAdapter.getItem(position);
+                TodoTask item = (TodoTask) mTodoTaskAdapter.getItem(position);
                 mItemList.remove(item);
                 itemDB.deleteItem(item);
-                mTodoItemAdapter.notifyDataSetChanged();
+                mTodoTaskAdapter.notifyDataSetChanged();
                 return false;
             }
         });
     }
 
     @Override
-    public void onFinishEditDialog(TodoItem item) {
+    public void onFinishEditDialog(TodoTask item) {
 
-        TodoItemDBHelper itemDB = TodoItemDBHelper.getInstance(this);
+        TodoTaskDBHelper itemDB = TodoTaskDBHelper.getInstance(this);
         TextView content = (TextView) findViewById(R.id.editText);
 
         itemDB.updateItem(item);
         mItemList.set(item.position, item);
-        mTodoItemAdapter.notifyDataSetChanged();
+        mTodoTaskAdapter.notifyDataSetChanged();
 
         content.setText(null);
     }
 
     public void addTodo(View view) {
-        TodoItemDBHelper itemDB = TodoItemDBHelper.getInstance(this);
+        TodoTaskDBHelper itemDB = TodoTaskDBHelper.getInstance(this);
         TextView content = (TextView) findViewById(R.id.editText);
-        TodoItem item = new TodoItem();
+        TodoTask item = new TodoTask();
 
         item.content = content.getText().toString();
         item.position = mListView.getCount();
 
         itemDB.addItem(item);
         mItemList.add(item);
-        mTodoItemAdapter.notifyDataSetChanged();
+        mTodoTaskAdapter.notifyDataSetChanged();
 
         content.setText(null);
     }

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">TuDu</string>
-    <string name="edit_item">Edit Item:</string>
-    <string name="edit_item_save">Save</string>
-    <string name="edit_task">Edit Task</string>
-    <string name="add_item">Add Item</string>
-    <string name="new_item">Enter a new item</string>
+    <string name="edit_task">Edit Task:</string>
+    <string name="edit_task_save">Save</string>
+    <string name="add_task">Add Task</string>
+    <string name="new_task">Enter a new Task</string>
+    <string name="task_title_text">Task Title:</string>
+    <string name="task_priority_text">Task Priority:</string>
 </resources>

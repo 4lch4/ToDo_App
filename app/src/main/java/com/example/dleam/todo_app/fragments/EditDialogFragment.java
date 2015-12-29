@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dleam.todo_app.R;
-import com.example.dleam.todo_app.models.TodoItem;
+import com.example.dleam.todo_app.models.TodoTask;
 
 /**
  * Created by dleam on 12/25/2015.
@@ -24,7 +24,7 @@ public class EditDialogFragment extends DialogFragment implements TextView.OnEdi
 
     public EditDialogFragment() {}
 
-    public static EditDialogFragment newInstance(String title, TodoItem item) {
+    public static EditDialogFragment newInstance(String title, TodoTask item) {
         EditDialogFragment fragment = new EditDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -38,7 +38,7 @@ public class EditDialogFragment extends DialogFragment implements TextView.OnEdi
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text to activity
-            TodoItem item = new TodoItem();
+            TodoTask item = new TodoTask();
             item.content = mEditText.getText().toString();
             item.position = mPosition;
             EditDialogListener listener = (EditDialogListener) getActivity();
@@ -50,13 +50,13 @@ public class EditDialogFragment extends DialogFragment implements TextView.OnEdi
     }
 
     public interface EditDialogListener {
-        void onFinishEditDialog(TodoItem item);
+        void onFinishEditDialog(TodoTask item);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_edit_item, container);
+        return inflater.inflate(R.layout.fragment_edit_task, container);
     }
 
     @Override
