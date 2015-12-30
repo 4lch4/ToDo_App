@@ -17,20 +17,20 @@ import java.util.ArrayList;
  */
 public class TodoTaskAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<TodoTask> mItemList;
+    private ArrayList<TodoTask> mTaskList;
     private static LayoutInflater sInflater = null;
 
     public TodoTaskAdapter(Context context, ArrayList<TodoTask> itemList) {
         mContext = context;
-        mItemList = itemList;
+        mTaskList = itemList;
         sInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public int getCount() { return mItemList.size(); }
+    public int getCount() { return mTaskList.size(); }
 
     @Override
-    public Object getItem(int position) { return mItemList.get(position); }
+    public Object getItem(int position) { return mTaskList.get(position); }
 
     @Override
     public long getItemId(int position) { return position; }
@@ -40,16 +40,10 @@ public class TodoTaskAdapter extends BaseAdapter {
         View view = convertView;
         if (view == null) { view = sInflater.inflate(R.layout.task_row, null); }
 
-        TextView content = (TextView) view.findViewById(R.id.contentView);
+        TextView taskTitle = (TextView) view.findViewById(R.id.contentView);
 
-        content.setText(mItemList.get(position).content);
+        taskTitle.setText(mTaskList.get(position).title);
 
         return view;
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-
     }
 }

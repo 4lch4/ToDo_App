@@ -14,15 +14,19 @@ public class TodoTaskDBHelper extends SQLiteOpenHelper {
 
     //<editor-fold desc="Variables">
     // DB Info
-    private static final String DATABASE_NAME = "itemDatabase";
+    private static final String DATABASE_NAME = "taskDatabase";
     private static final int DATABASE_VERSION = 1;
 
     // Table Name
-    private static final String TABLE_ITEMS = "items";
+    private static final String TABLE_TASKS = "tasks";
 
-    // Item Table Columns
-    private static final String KEY_ITEM_ID = "id";
-    private static final String KEY_ITEM_TEXT= "text";
+    // Task Table Columns
+    private static final String KEY_TASK_ID = "id";
+    private static final String KEY_TASK_TITLE = "title";
+    private static final String KEY_TASK_PRIORITY = "priority";
+    private static final String KEY_TASK_DUE_DATE = "due_date";
+    private static final String KEY_TASK_NOTES = "notes";
+    private static final String KEY_TASK_STATUS = "status";
 
     // Misc Variables
     private static TodoTaskDBHelper sInstance;
@@ -41,35 +45,43 @@ public class TodoTaskDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_ITEM_TABLE = "CREATE TABLE " + TABLE_ITEMS +
+        String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_TASKS +
                 "(" +
-                    KEY_ITEM_ID + " INTEGER PRIMARY KEY," +
-                    KEY_ITEM_TEXT + " TEXT" +
+                    KEY_TASK_ID + " INTEGER PRIMARY KEY," +
+                    KEY_TASK_TITLE + " TEXT," +
+                    KEY_TASK_PRIORITY + " TEXT," +
+                    KEY_TASK_DUE_DATE + " TEXT," +
+                    KEY_TASK_NOTES + " TEXT," +
+                    KEY_TASK_STATUS + " TEXT" +
                 ")";
 
-        db.execSQL(CREATE_ITEM_TABLE);
+        db.execSQL(CREATE_TASK_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion != newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
             onCreate(db);
         }
     }
 
-    // Insert an item
-    public void addItem(TodoTask item) {
+    // Insert a task
+    public void addTask(TodoTask task) {
         SQLiteDatabase db = getWritableDatabase();
 
         // Doing the insert in a transaction helps with performance and ensures consistency of the db
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put(KEY_ITEM_ID, item.position);
-            values.put(KEY_ITEM_TEXT, item.content);
+            values.put(KEY_TASK_ID, task.position);
+            values.put(KEY_TASK_TITLE, task.title);
+            values.put(KEY_TASK_PRIORITY, task.priority);
+            values.put(KEY_TASK_DUE_DATE, task.dueDate);
+            values.put(KEY_TASK_NOTES, task.notes);
+            values.put(KEY_TASK_STATUS, task.status);
 
-            db.insertOrThrow(TABLE_ITEMS, null, values);
+            db.insertOrThrow(TABLE_TASKS, null, values);
             db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,21 +90,25 @@ public class TodoTaskDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Get all items
-    public ArrayList<TodoTask> getAllItems() {
-        ArrayList<TodoTask> items = new ArrayList<>();
-        String ITEMS_SELECT_QUERY = String.format( "SELECT * FROM %s", TABLE_ITEMS);
+    // Get all tasks
+    public ArrayList<TodoTask> getAllTasks() {
+        ArrayList<TodoTask> tasks = new ArrayList<>();
+        String TASKS_SELECT_QUERY = String.format( "SELECT * FROM %s", TABLE_TASKS);
 
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(ITEMS_SELECT_QUERY, null);
+        Cursor cursor = db.rawQuery(TASKS_SELECT_QUERY, null);
         try{
             if(cursor.moveToFirst()) {
                 do {
-                    TodoTask item = new TodoTask();
-                    item.position = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_ID));
-                    item.content = cursor.getString(cursor.getColumnIndex(KEY_ITEM_TEXT));
+                    TodoTask task = new TodoTask();
+                    task.position = cursor.getInt(cursor.getColumnIndex(KEY_TASK_ID));
+                    task.title = cursor.getString(cursor.getColumnIndex(KEY_TASK_TITLE));
+                    task.priority = cursor.getString(cursor.getColumnIndex(KEY_TASK_PRIORITY));
+                    task.dueDate = cursor.getString(cursor.getColumnIndex(KEY_TASK_DUE_DATE));
+                    task.notes = cursor.getString(cursor.getColumnIndex(KEY_TASK_NOTES));
+                    task.status = cursor.getString(cursor.getColumnIndex(KEY_TASK_STATUS));
 
-                    items.add(item);
+                    tasks.add(task);
                 } while(cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -102,27 +118,32 @@ public class TodoTaskDBHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        return items;
+        return tasks;
     }
 
-    // Update an existing item
-    public int updateItem(TodoTask item) {
+    // Update an existing task
+    public int updateTask(TodoTask task) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ITEM_TEXT, item.content);
+        values.put(KEY_TASK_TITLE, task.title);
+        values.put(KEY_TASK_PRIORITY, task.priority);
+        values.put(KEY_TASK_DUE_DATE, task.dueDate);
+        values.put(KEY_TASK_NOTES, task.notes);
+        values.put(KEY_TASK_STATUS, task.status);
 
-        return db.update(TABLE_ITEMS, values, KEY_ITEM_ID + " = ?",
-                new String[] { String.valueOf(item.position) });
+        return db.update(TABLE_TASKS, values, KEY_TASK_ID + " = ?",
+                new String[] { String.valueOf(task.position) });
     }
 
-    public void deleteItem(TodoTask item) {
+    // Delete an existing task
+    public void deleteTask(TodoTask task) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
 
         try {
-            db.delete(TABLE_ITEMS, KEY_ITEM_ID + " = ?",
-                    new String[] { String.valueOf(item.position) });
+            db.delete(TABLE_TASKS, KEY_TASK_ID + " = ?",
+                    new String[] { String.valueOf(task.position) });
             db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
