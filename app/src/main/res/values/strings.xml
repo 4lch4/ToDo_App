@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">TuDu</string>
-    <string name="edit_task">Edit Task:</string>
     <string name="add_task">New Task</string>
-    <string name="new_task">Enter a new Task</string>
     <string name="task_save_text">Save</string>
     <string name="task_title_text">Title:</string>
     <string name="task_priority_text">Priority:</string>
     <string name="task_due_date_text">Due Date:</string>
-    <string name="task_status_text">Status:</string>
     <string name="task_notes_text">Notes:</string>
+    <string name="task_status_text">Status:</string>
 </resources>

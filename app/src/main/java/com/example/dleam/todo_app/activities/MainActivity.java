@@ -1,5 +1,6 @@
 package com.example.dleam.todo_app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +18,7 @@ import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements TaskEditDialog.TaskEditDialogListener{
+public class MainActivity extends AppCompatActivity implements TaskEditDialog.TaskEditDialogListener {
     private TodoTaskDBHelper taskDB;
     private ArrayList<TodoTask> mTaskList;
     private TodoTaskAdapter mTodoTaskAdapter;
@@ -55,10 +56,12 @@ public class MainActivity extends AppCompatActivity implements TaskEditDialog.Ta
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager fm = getSupportFragmentManager();
                 TodoTask task = (TodoTask) mTodoTaskAdapter.getItem(position);
-                TaskEditDialog taskEditDialog = TaskEditDialog.newInstance("Edit Task", task);
-                taskEditDialog.show(fm, "edit_task");
+                Intent intent = new Intent(MainActivity.this, TaskViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("task", task);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
