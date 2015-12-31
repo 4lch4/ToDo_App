@@ -21,12 +21,13 @@ public class TaskViewActivity extends AppCompatActivity implements TaskEditDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_view);
         Bundle extras = getIntent().getExtras();
-        mTask = (TodoTask) extras.getSerializable("task");
 
-        setTaskValues();
+        setTaskValues((TodoTask) extras.getSerializable("task"));
     }
 
-    private void setTaskValues() {
+    private void setTaskValues(TodoTask task) {
+        mTask = task;
+
         TextView mTaskTitle = (TextView) findViewById(R.id.task_title_text);
         TextView mTaskDueDate = (TextView) findViewById(R.id.task_due_date_view);
         TextView mTaskNotes = (TextView) findViewById(R.id.task_notes_view);
@@ -45,8 +46,7 @@ public class TaskViewActivity extends AppCompatActivity implements TaskEditDialo
         TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
         taskDB.updateTask(task);
 
-        mTask = task;
-        setTaskValues();
+        setTaskValues(task);
     }
 
     public void onClick(View view) {
