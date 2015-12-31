@@ -1,6 +1,8 @@
 package com.example.dleam.todo_app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import com.example.dleam.todo_app.R;
 import com.example.dleam.todo_app.fragments.TaskEditDialog;
 import com.example.dleam.todo_app.models.TodoTask;
+import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 
 public class TaskViewActivity extends AppCompatActivity implements TaskEditDialog.TaskEditDialogListener {
     private TodoTask mTask;
@@ -39,13 +42,25 @@ public class TaskViewActivity extends AppCompatActivity implements TaskEditDialo
 
     @Override
     public void onFinishEditDialog(TodoTask task) {
+        TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
+        taskDB.updateTask(task);
 
+        mTask = task;
+        setTaskValues();
     }
 
-    private void onClick(View view) {
-        /*FragmentManager fm = getSupportFragmentManager();
-        TaskEditDialog taskEditDialog = TaskEditDialog.newInstance("Edit Task", task);
-        taskEditDialog.show(fm, "edit_task");*/
+    public void onClick(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        TaskEditDialog taskEditDialog = TaskEditDialog.newInstance("Edit Task", mTask);
+        taskEditDialog.show(fm, "edit_task");
     }
 
+    public void saveClick(View view) {
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("task", mTask);
+        returnIntent.putExtras(bundle);
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
 }

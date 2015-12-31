@@ -75,4 +75,18 @@
         android:id="@+id/task_status_view"
         android:layout_weight="1" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_task"
+        android:layout_weight="1"
+        android:onClick="onClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/task_save_text"
+        android:layout_weight="1"
+        android:onClick="saveClick" />
+
 </LinearLayout>

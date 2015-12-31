@@ -18,7 +18,7 @@ import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements TaskEditDialog.TaskEditDialogListener {
+public class MainActivity extends AppCompatActivity {
     private TodoTaskDBHelper taskDB;
     private ArrayList<TodoTask> mTaskList;
     private TodoTaskAdapter mTodoTaskAdapter;
@@ -37,6 +37,17 @@ public class MainActivity extends AppCompatActivity implements TaskEditDialog.Ta
         mListView.setAdapter(mTodoTaskAdapter);
 
         buildListeners();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            TodoTask task = new TodoTask();
+            task = (TodoTask) data.getExtras().getSerializable("task");
+            mTaskList.set(task.position, task);
+            mTodoTaskAdapter.notifyDataSetChanged();
+        }
     }
 
     private void buildListeners() {
@@ -61,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements TaskEditDialog.Ta
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("task", task);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -77,20 +88,5 @@ public class MainActivity extends AppCompatActivity implements TaskEditDialog.Ta
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onFinishEditDialog(TodoTask task) {
-        TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
-
-        if(mTaskList.contains(task)) {
-            mTaskList.set(task.position, task);
-            taskDB.updateTask(task);
-        } else {
-            mTaskList.add(task);
-            taskDB.addTask(task);
-        }
-
-        mTodoTaskAdapter.notifyDataSetChanged();
     }
 }
