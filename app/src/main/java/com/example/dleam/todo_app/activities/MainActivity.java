@@ -1,6 +1,7 @@
 package com.example.dleam.todo_app.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements TaskEditDialog.Ta
                 mTaskList.remove(task);
                 taskDB.deleteTask(task);
                 mTodoTaskAdapter.notifyDataSetChanged();
+                Snackbar.make(findViewById(R.id.relative_layout), "Task Deleted", Snackbar.LENGTH_LONG).show();
                 return false;
             }
         });
