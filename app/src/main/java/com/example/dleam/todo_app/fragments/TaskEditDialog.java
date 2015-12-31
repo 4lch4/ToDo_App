@@ -1,10 +1,9 @@
 package com.example.dleam.todo_app.fragments;
 
 import android.app.DatePickerDialog;
-import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.Spinner;
 
 import com.example.dleam.todo_app.R;
 import com.example.dleam.todo_app.models.TodoTask;
-import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -60,6 +58,7 @@ public class TaskEditDialog extends DialogFragment {
         Bundle args = new Bundle();
         TaskEditDialog fragment = new TaskEditDialog();
         args.putString("title", title);
+        args.putSerializable("task", task);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,40 +75,22 @@ public class TaskEditDialog extends DialogFragment {
 
         getDialog().setTitle(getArguments().getString("title"));
 
-        mTask = new TodoTask();
-
-        mPriorityAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.priority_array, android.R.layout.simple_spinner_dropdown_item);
-        mStatusAdapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.status_array, android.R.layout.simple_spinner_dropdown_item);
-
-        mTaskTitle = (EditText) view.findViewById(R.id.edit_task_title);
-        mTaskDueDate = (EditText) view.findViewById(R.id.edit_task_due_date);
-        mTaskPriority = (Spinner) view.findViewById(R.id.edit_task_priority);
-        mTaskStatus = (Spinner) view.findViewById(R.id.edit_task_status);
-        mTaskNotes = (EditText) view.findViewById(R.id.edit_task_notes);
-        mTaskSave = (Button) view.findViewById(R.id.task_save);
-
-        mTaskPriority.setAdapter(mPriorityAdapter);
-        mTaskStatus.setAdapter(mStatusAdapter);
+        initializeVariables(view);
 
         mTaskSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TaskEditDialogListener listener = (TaskEditDialogListener) getActivity();
-                TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(getActivity());
                 mTask.title = mTaskTitle.getText().toString();
                 mTask.priority = mTaskPriority.getSelectedItem().toString();
                 mTask.dueDate = mTaskDueDate.getText().toString();
                 mTask.notes = mTaskNotes.getText().toString();
                 mTask.status = mTaskStatus.getSelectedItem().toString();
 
-                taskDB.addTask(mTask);
                 listener.onFinishEditDialog(mTask);
                 dismiss();
             }
         });
-
 
         mDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         mTaskDueDate.setInputType(InputType.TYPE_NULL);
@@ -132,6 +113,29 @@ public class TaskEditDialog extends DialogFragment {
                 mDueDatePickerDialog.show();
             }
         });
+    }
+
+    private void initializeVariables(View view) {
+        mPriorityAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.priority_array, android.R.layout.simple_spinner_dropdown_item);
+        mStatusAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.status_array, android.R.layout.simple_spinner_dropdown_item);
+
+        mTaskTitle = (EditText) view.findViewById(R.id.edit_task_title);
+        mTaskDueDate = (EditText) view.findViewById(R.id.edit_task_due_date);
+        mTaskPriority = (Spinner) view.findViewById(R.id.edit_task_priority);
+        mTaskStatus = (Spinner) view.findViewById(R.id.edit_task_status);
+        mTaskNotes = (EditText) view.findViewById(R.id.edit_task_notes);
+        mTaskSave = (Button) view.findViewById(R.id.task_save);
+
+        mTaskPriority.setAdapter(mPriorityAdapter);
+        mTaskStatus.setAdapter(mStatusAdapter);
+
+        if((mTask = (TodoTask) getArguments().getSerializable("task")) == null) {
+            mTask = new TodoTask();
+        } else {
+            setTaskValues();
+        }
     }
 
     private void setTaskValues() {
