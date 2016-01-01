@@ -110,6 +110,9 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
         if(task.title.length() > 0) {
             TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
 
+            // Ensures the ID is set
+            task.position = mTaskList.size();
+
             mTaskList.add(task);
             taskDB.addTask(task);
 
