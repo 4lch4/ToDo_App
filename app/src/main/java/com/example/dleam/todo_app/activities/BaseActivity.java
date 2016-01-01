@@ -12,11 +12,11 @@ public class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     // Activate primary Toolbar
-    protected Toolbar activateToolbar(String title) {
+    protected Toolbar activateToolbar() {
         if(mToolbar == null) {
             mToolbar = (Toolbar) findViewById(R.id.app_bar);
             if(mToolbar != null) {
-                mToolbar.setTitle(title);
+                mToolbar.setTitle("TuDu");
                 setSupportActionBar(mToolbar);
             }
         }

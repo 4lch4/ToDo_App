@@ -15,7 +15,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/task_title_text"
         android:id="@+id/task_title"
-        android:layout_margin="10dp" />
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/task_priority_text"
         android:id="@+id/task_priority_title"
-        android:layout_margin="10dp"/>
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/task_due_date_text"
         android:id="@+id/task_due_date"
-        android:layout_margin="10dp"/>
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/task_notes_text"
         android:id="@+id/task_notes"
-        android:layout_margin="10dp" />
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/task_status_text"
         android:id="@+id/task_status"
-        android:layout_margin="10dp"/>
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -83,6 +83,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/task_save_text"
-        android:id="@+id/task_save"/>
+        android:text="@string/task_done_text"
+        android:id="@+id/task_done"/>
 </LinearLayout>

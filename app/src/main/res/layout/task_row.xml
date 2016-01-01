@@ -10,6 +10,9 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:paddingRight="5dp"
+        android:paddingEnd="5dp"
         android:textColor="@android:color/black"
         android:singleLine="true" />
 </RelativeLayout>

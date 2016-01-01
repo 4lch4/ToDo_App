@@ -8,4 +8,5 @@
     <string name="task_notes_text">Notes:</string>
     <string name="task_status_text">Status:</string>
     <string name="task_edit_text">Edit Task</string>
+    <string name="task_done_text">Done</string>
 </resources>

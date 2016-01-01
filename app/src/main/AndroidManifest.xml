@@ -17,6 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TaskViewActivity" />
+        <activity
+            android:name=".activities.TaskViewActivity"
+            android:parentActivityName="com.example.dleam.todo_app.activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dleam.todo_app.activities.MainActivity" />
+        </activity>
     </application>
 </manifest>

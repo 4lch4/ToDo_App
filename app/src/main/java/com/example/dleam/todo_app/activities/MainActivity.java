@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        activateToolbar("TuDu");
+        activateToolbar();
 
         taskDB = TodoTaskDBHelper.getInstance(this);
 
@@ -107,11 +107,13 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
 
     @Override
     public void onFinishEditDialog(TodoTask task) {
-        TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
+        if(task.title.length() > 0) {
+            TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
 
-        mTaskList.add(task);
-        taskDB.addTask(task);
+            mTaskList.add(task);
+            taskDB.addTask(task);
 
-        mTodoTaskAdapter.notifyDataSetChanged();
+            mTodoTaskAdapter.notifyDataSetChanged();
+        }
     }
 }

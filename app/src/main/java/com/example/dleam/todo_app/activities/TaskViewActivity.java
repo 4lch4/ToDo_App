@@ -22,7 +22,10 @@ public class TaskViewActivity extends BaseActivity implements TaskEditDialog.Tas
         setContentView(R.layout.activity_task_view);
         Bundle extras = getIntent().getExtras();
 
-        activateToolbar("");
+        activateToolbar();
+
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTaskValues((TodoTask) extras.getSerializable("task"));
     }

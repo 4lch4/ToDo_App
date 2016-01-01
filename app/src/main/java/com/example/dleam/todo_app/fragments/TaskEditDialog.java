@@ -126,7 +126,7 @@ public class TaskEditDialog extends DialogFragment {
         mTaskPriority = (Spinner) view.findViewById(R.id.edit_task_priority);
         mTaskStatus = (Spinner) view.findViewById(R.id.edit_task_status);
         mTaskNotes = (EditText) view.findViewById(R.id.edit_task_notes);
-        mTaskSave = (Button) view.findViewById(R.id.task_save);
+        mTaskSave = (Button) view.findViewById(R.id.task_done);
 
         mTaskPriority.setAdapter(mPriorityAdapter);
         mTaskStatus.setAdapter(mStatusAdapter);
