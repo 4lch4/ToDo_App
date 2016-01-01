@@ -54,6 +54,9 @@ public class TodoTaskAdapter extends BaseAdapter {
             case "High":
                 taskPriority.setTextColor(Color.parseColor("#E53935"));
                 break;
+            case "Normal":
+                taskPriority.setTextColor(Color.parseColor("#757575"));
+                break;
             case "Low":
                 taskPriority.setTextColor(Color.parseColor("#43A047"));
                 break;
