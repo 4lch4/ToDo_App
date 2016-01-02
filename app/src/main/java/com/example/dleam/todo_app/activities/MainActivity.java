@@ -68,7 +68,11 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TodoTask task = (TodoTask) data.getExtras().getSerializable("task");
+        TodoTask task = null;
+
+        if(data != null)
+            task = (TodoTask) data.getExtras().getSerializable("task");
+
         if(resultCode == RESULT_OK) {
             if(task != null)
                 mTaskList.set(task.position, task);
