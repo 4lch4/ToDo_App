@@ -42,7 +42,7 @@ public class TaskEditDialog extends DialogFragment implements View.OnFocusChange
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mDueDatePickerDialog.show();
+        if(hasFocus) mDueDatePickerDialog.show();
     }
 
     public interface TaskEditDialogListener {
