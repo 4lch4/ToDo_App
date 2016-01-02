@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import java.util.Locale;
 /**
  * Created by DevinL on 12/29/2015.
  */
-public class TaskEditDialog extends DialogFragment {
+public class TaskEditDialog extends DialogFragment implements View.OnFocusChangeListener{
     private EditText mTaskTitle;
     private EditText mTaskDueDate;
     private EditText mTaskNotes;
@@ -38,9 +37,13 @@ public class TaskEditDialog extends DialogFragment {
 
     private SimpleDateFormat mDateFormatter;
     private DatePickerDialog mDueDatePickerDialog;
-    private Bundle mExtras;
 
     public TaskEditDialog() {}
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        mDueDatePickerDialog.show();
+    }
 
     public interface TaskEditDialogListener {
         void onFinishEditDialog(TodoTask task);
@@ -92,27 +95,19 @@ public class TaskEditDialog extends DialogFragment {
             }
         });
 
-        mDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-        mTaskDueDate.setInputType(InputType.TYPE_NULL);
+        mTaskDueDate.setOnFocusChangeListener(this);
 
-        mTaskDueDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("CAL", "CLICKED");
-                Calendar newCalendar = Calendar.getInstance();
-                mDueDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+        Calendar newCalendar = Calendar.getInstance();
+        mDueDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(year, monthOfYear, dayOfMonth);
-                        mTaskDueDate.setText(mDateFormatter.format(newDate.getTime()));
-                    }
-
-                },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-                mDueDatePickerDialog.show();
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                mTaskDueDate.setText(mDateFormatter.format(newDate.getTime()));
             }
-        });
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     private void initializeVariables(View view) {
@@ -130,6 +125,9 @@ public class TaskEditDialog extends DialogFragment {
 
         mTaskPriority.setAdapter(mPriorityAdapter);
         mTaskStatus.setAdapter(mStatusAdapter);
+
+        mDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        mTaskDueDate.setInputType(InputType.TYPE_NULL);
 
         if((mTask = (TodoTask) getArguments().getSerializable("task")) == null) {
             mTask = new TodoTask();
