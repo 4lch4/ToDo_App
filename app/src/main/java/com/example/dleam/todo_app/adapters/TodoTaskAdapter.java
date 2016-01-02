@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dleam.todo_app.R;
@@ -45,6 +46,7 @@ public class TodoTaskAdapter extends BaseAdapter {
         TextView taskTitle = (TextView) view.findViewById(R.id.title_view);
         TextView taskDueDate = (TextView) view.findViewById(R.id.date_view);
         TextView taskPriority = (TextView) view.findViewById(R.id.priority_view);
+        ImageView taskStatus = (ImageView) view.findViewById(R.id.status_view);
 
         taskTitle.setText(mTaskList.get(position).title);
         taskDueDate.setText(mTaskList.get(position).dueDate);
@@ -61,6 +63,12 @@ public class TodoTaskAdapter extends BaseAdapter {
                 taskPriority.setTextColor(Color.parseColor("#43A047"));
                 break;
         }
+
+        if(mTaskList.get(position).status.equals("Complete"))
+            taskStatus.setImageResource(R.drawable.btn_check_buttonless_on);
+        else
+            taskStatus.setImageResource(R.drawable.btn_check_buttonless_off);
+
         return view;
     }
 }

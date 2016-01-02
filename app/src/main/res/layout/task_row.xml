@@ -16,6 +16,11 @@
             android:paddingEnd="5dp"
             android:singleLine="true"
             android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/status_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/check_mark_text" />
     </TableRow>
     <TableRow
         android:layout_weight="1">
@@ -26,7 +31,6 @@
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/priority_view"
-            android:layout_width="match_parent"
-            android:layout_weight="1"/>
+            android:layout_width="match_parent" />
     </TableRow>
 </TableLayout>

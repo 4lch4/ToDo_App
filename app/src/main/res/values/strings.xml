@@ -10,4 +10,5 @@
     <string name="task_edit_text">Edit Task</string>
     <string name="task_done_text">Done</string>
     <string name="task_delete_text">Delete Task</string>
+    <string name="check_mark_text">Check Mark</string>
 </resources>
