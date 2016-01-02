@@ -27,9 +27,13 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories (will be updated soon):
 
-<img src='http://i.imgur.com/KjG44l5.gif' width='300'/>
+<img src='http://i.imgur.com/4pwOc3Y.gif' width='300'/>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+## Notes
+
+I don't have much to say in terms of the app other than I really enjoyed getting to use the DialogFragments and SQL as it was a first for me.
 
 ## License
 
