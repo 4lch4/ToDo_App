@@ -20,7 +20,8 @@
             android:id="@+id/status_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/check_mark_text" />
+            android:contentDescription="@string/check_mark_text"
+            android:layout_gravity="end"/>
     </TableRow>
     <TableRow
         android:layout_weight="1">
