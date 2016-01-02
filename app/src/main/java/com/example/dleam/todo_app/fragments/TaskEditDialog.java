@@ -24,7 +24,7 @@ import java.util.Locale;
 /**
  * Created by DevinL on 12/29/2015.
  */
-public class TaskEditDialog extends DialogFragment implements View.OnFocusChangeListener{
+public class TaskEditDialog extends DialogFragment {
     private EditText mTaskTitle;
     private EditText mTaskDueDate;
     private EditText mTaskNotes;
@@ -39,11 +39,6 @@ public class TaskEditDialog extends DialogFragment implements View.OnFocusChange
     private DatePickerDialog mDueDatePickerDialog;
 
     public TaskEditDialog() {}
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if(hasFocus) mDueDatePickerDialog.show();
-    }
 
     public interface TaskEditDialogListener {
         void onFinishEditDialog(TodoTask task);
@@ -95,7 +90,20 @@ public class TaskEditDialog extends DialogFragment implements View.OnFocusChange
             }
         });
 
-        mTaskDueDate.setOnFocusChangeListener(this);
+        mTaskDueDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) mDueDatePickerDialog.show();
+            }
+        });
+
+        mTaskDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mDueDatePickerDialog.isShowing())
+                    mDueDatePickerDialog.show();
+            }
+        });
 
         Calendar newCalendar = Calendar.getInstance();
         mDueDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {

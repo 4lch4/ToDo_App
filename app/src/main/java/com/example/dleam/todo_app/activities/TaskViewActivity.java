@@ -14,13 +14,14 @@ import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 
 public class TaskViewActivity extends BaseActivity implements TaskEditDialog.TaskEditDialogListener {
     private TodoTask mTask;
-
+    private TodoTaskDBHelper mTaskDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_view);
         Bundle extras = getIntent().getExtras();
+        mTaskDB = TodoTaskDBHelper.getInstance(this);
 
         activateToolbar();
 
@@ -60,7 +61,19 @@ public class TaskViewActivity extends BaseActivity implements TaskEditDialog.Tas
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        Intent returnIntent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("task", mTask);
+        returnIntent.putExtras(bundle);
+
         switch(id) {
+            // Delete Item selected
+            case R.id.menu_delete_task:
+                mTaskDB.deleteTask(mTask);
+                setResult(RESULT_FIRST_USER, returnIntent);
+                finish();
+                break;
+
             // Edit Item selected
             case R.id.menu_edit_task:
                 FragmentManager fm = getSupportFragmentManager();
@@ -70,10 +83,6 @@ public class TaskViewActivity extends BaseActivity implements TaskEditDialog.Tas
 
             // Save Item selected
             case R.id.menu_save_task:
-                Intent returnIntent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("task", mTask);
-                returnIntent.putExtras(bundle);
                 setResult(RESULT_OK, returnIntent);
                 finish();
                 break;
@@ -84,8 +93,7 @@ public class TaskViewActivity extends BaseActivity implements TaskEditDialog.Tas
 
     @Override
     public void onFinishEditDialog(TodoTask task) {
-        TodoTaskDBHelper taskDB = TodoTaskDBHelper.getInstance(this);
-        taskDB.updateTask(task);
+        mTaskDB.updateTask(task);
 
         setTaskValues(task);
     }

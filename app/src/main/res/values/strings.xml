@@ -9,4 +9,5 @@
     <string name="task_status_text">Status:</string>
     <string name="task_edit_text">Edit Task</string>
     <string name="task_done_text">Done</string>
+    <string name="task_delete_text">Delete Task</string>
 </resources>

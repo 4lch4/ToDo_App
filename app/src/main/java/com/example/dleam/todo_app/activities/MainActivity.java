@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +19,10 @@ import com.example.dleam.todo_app.network.TodoTaskDBHelper;
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEditDialogListener {
-    private TodoTaskDBHelper taskDB;
+    private TodoTaskDBHelper mTaskDB;
     private ArrayList<TodoTask> mTaskList;
     private TodoTaskAdapter mTodoTaskAdapter;
     private ListView mListView;
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +31,10 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
 
         activateToolbar();
 
-        taskDB = TodoTaskDBHelper.getInstance(this);
+        mTaskDB = TodoTaskDBHelper.getInstance(this);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mTaskList = taskDB.getAllTasks();
+        mTaskList = mTaskDB.getAllTasks();
         mTodoTaskAdapter = new TodoTaskAdapter(this, mTaskList);
         mListView.setAdapter(mTodoTaskAdapter);
 
@@ -70,11 +68,17 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        TodoTask task = (TodoTask) data.getExtras().getSerializable("task");
         if(resultCode == RESULT_OK) {
-            TodoTask task = (TodoTask) data.getExtras().getSerializable("task");
-            mTaskList.set(task.position, task);
-            mTodoTaskAdapter.notifyDataSetChanged();
+            if(task != null)
+                mTaskList.set(task.position, task);
+        } else if(resultCode == RESULT_FIRST_USER) {
+            if(task != null) {
+                mTaskList.remove(task.position);
+                Snackbar.make(findViewById(R.id.relative_layout), "Task Deleted", Snackbar.LENGTH_LONG).show();
+            }
         }
+        mTodoTaskAdapter.notifyDataSetChanged();
     }
 
     private void buildListeners() {
@@ -97,7 +101,7 @@ public class MainActivity extends BaseActivity implements TaskEditDialog.TaskEdi
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TodoTask task = (TodoTask) mTodoTaskAdapter.getItem(position);
                 mTaskList.remove(task);
-                taskDB.deleteTask(task);
+                mTaskDB.deleteTask(task);
                 mTodoTaskAdapter.notifyDataSetChanged();
                 Snackbar.make(findViewById(R.id.relative_layout), "Task Deleted", Snackbar.LENGTH_LONG).show();
                 return false;
